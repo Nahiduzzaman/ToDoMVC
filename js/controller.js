@@ -2,10 +2,22 @@
 
 'use strict'
 
-console.log(task);
+ 
+var methods = {
+	createTask : createTask,
+	searchTodo : searchTodo,
+	done : done,
+	remove : remove,
+	editOnClick : editOnClick,
+	update : update,
+	cancel : cancel
+}
 
-window.createTask = function(){
+window.methods = methods;
+
+function createTask(){
 	task = {
+		s_id: todoData.length,
 		created_at: new Date(),
 		taskname: document.getElementById("taskname").value,
 		description: document.getElementById("description").value,
@@ -28,14 +40,28 @@ window.createTask = function(){
 	flterAndRender('all')
 }
 
-window.searchTodo = function(text){
+function searchTodo(text){
+	console.log('pending',pending);
+	console.log('completed',completed);
     document.getElementById("main").innerHTML="";	
 	console.log('searchText',text);
-	console.log('todoData in searchTodo',todoData);
-    var forsearch = todoData;
-	for(var i = 0; i < forsearch.length; i++){
-		forsearch[i].s_id = i;
+	//console.log('todoData in searchTodo',todoData);
+
+	if(pending.length != 0 && completed.length==0){
+		var forsearch = pending;
+		//console.log('p');	
 	}
+	if(completed.length != 0 && pending.length == 0){
+		var forsearch = completed;
+		//console.log('c');
+	}
+	if(pending.length == 0 && completed.length == 0){
+    	var forsearch = todoData;
+    	//console.log('a');
+	}
+
+    console.log('forsearch',forsearch);
+	
 	function filterItems(query) {
 	    return forsearch.filter(function(el) {
 	     return el.taskname.toLowerCase().indexOf(query.toLowerCase()) > -1 || el.description.toLowerCase().indexOf(query.toLowerCase()) > -1 ;
@@ -44,35 +70,42 @@ window.searchTodo = function(text){
 	var searchedData = filterItems(text);
 	console.log('searchedData',searchedData)
 	for(var j=0;j < searchedData.length;j++){
+		console.log('s_id',searchedData[j].s_id);
 		createlist(searchedData[j].s_id);
 	}
 }
 
 function done(x, _this, task) {
-  if (_this.checked) {
-  	todoData[task].done = true;
-  	x.getElementsByTagName("B")[0].style.textDecoration="line-through";
-    x.style.backgroundColor = '#bfbfbf';
-  } else  {
-  	todoData[task].done = false;
-    x.style = '';
-    x.getElementsByTagName("B")[0].style.textDecoration="";
-  }
-  //localStorage.setItem("todos", JSON.stringify(todoData));
-  localStorage.setItem("todoData", JSON.stringify(todoData));
-  console.log('TodoData after done or undone',todoData);
+  	console.log(x);
+  	console.log(_this);
+  	console.log(task);
+  	if (_this.checked) {
+  		todoData[task].done = true;
+  		x.getElementsByTagName("B")[0].style.textDecoration="line-through";
+    	x.style.backgroundColor = '#bfbfbf';
+  	} else  {
+  		todoData[task].done = false;
+    	x.style = '';
+    	x.getElementsByTagName("B")[0].style.textDecoration="";
+  	}
+  	//localStorage.setItem("todos", JSON.stringify(todoData));
+  	localStorage.setItem("todoData", JSON.stringify(todoData));
+  	console.log('TodoData after done or undone',todoData);
+  	/*flterAndRender('all');*/
 }
 
-window.remove = function(idx){
+function remove(idx){
 	console.log('idx',idx);
-	todoData.splice(idx, 1);
-	var idtodelete = 'list'+idx;
-	document.getElementById(idtodelete).remove();
-	localStorage.setItem("todoData", JSON.stringify(todoData));
+    if(window.confirm("Are you sure?")) {
+		todoData.splice(idx, 1);
+		var idtodelete = 'list'+idx;
+		document.getElementById(idtodelete).remove();
+		localStorage.setItem("todoData", JSON.stringify(todoData));
+	}
 }
 
 var index;
-window.editOnClick = function(id){
+function editOnClick(id){
 	console.log('edit_id',id);
 	console.log('todoData in edit',todoData)
 	console.log('taskname',todoData[id].taskname );
@@ -86,7 +119,7 @@ window.editOnClick = function(id){
 	console.log(index);	
 }
 
-window.update = function(){
+function update(){
 	console.log(index);
 	todoData[index].taskname = modal.getElementsByTagName("INPUT")[0].value;
 	todoData[index].description = modal.getElementsByTagName("TEXTAREA")[0].value;
@@ -97,9 +130,10 @@ window.update = function(){
 }
 
 
-window.cancel = function(){
+function cancel(){
 	modal.style.display = "none";
 }
+
 
 
 

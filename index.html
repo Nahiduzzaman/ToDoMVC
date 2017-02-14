@@ -19,7 +19,7 @@
          </div>
          <div style="width: 90%; height: 100%; background-color: blue; float:right; padding: 29px 0px 29px;">
          <label for="search"></label>
-           <input type="text" tabindex="2" accesskey="s" style="width: 90%; margin-left: 50px;" id="search" name="search" onchange="searchTodo(this.value)" oninput="this.onchange()" placeholder="Search..">
+           <input type="text" tabindex="2" accesskey="s" style="width: 90%; margin-left: 50px;" id="search" name="search" onchange="methods.searchTodo(this.value)" oninput="this.onchange()" placeholder="Search..">
          </div>
       </div>
     </header>
@@ -107,9 +107,9 @@
           <textarea rows="4" cols="50" id ="description" name="description" placeholder="Enter description ..." required></textarea>
             <!-- <button class="button button2">Cancel</button> -->            
         </div>
-        <span class="button button2" id="save" onclick="createTask()">Save</span>        
-        <span class="button button2" id="update" onclick="update()">Update</span>        
-        <span class="button button2" onclick="cancel()">Cancel</span>        
+        <span class="button button2" id="save" onclick="methods.createTask()">Save</span>        
+        <span class="button button2" id="update" onclick="methods.update()">Update</span>        
+        <span class="button button2" onclick="methods.cancel()">Cancel</span>        
       </div>
     </div>
 
@@ -121,6 +121,6 @@
     <script src="js/model.js"></script>
     <script src="js/view_render.js"></script>             
     <script src="js/controller.js"></script>                       
-    <script src="js/template/modal.js"></script>         
+    <!-- <script src="js/template/modal.js"></script> -->         
   </body>
 </html>
