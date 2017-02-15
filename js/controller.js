@@ -46,17 +46,17 @@ function searchTodo(text){
     document.getElementById("main").innerHTML="";	
 	console.log('searchText',text);
 	//console.log('todoData in searchTodo',todoData);
-
+    var forsearch = [];
 	if(pending.length != 0 && completed.length==0){
-		var forsearch = pending;
+		forsearch = pending;
 		//console.log('p');	
 	}
 	if(completed.length != 0 && pending.length == 0){
-		var forsearch = completed;
+		forsearch = completed;
 		//console.log('c');
 	}
 	if(pending.length == 0 && completed.length == 0){
-    	var forsearch = todoData;
+    	forsearch = data;
     	//console.log('a');
 	}
 
@@ -68,11 +68,27 @@ function searchTodo(text){
 	    })
 	}
 	var searchedData = filterItems(text);
-	console.log('searchedData',searchedData)
-	for(var j=0;j < searchedData.length;j++){
+	/*var idx = array.indexOf(element);
+	while (idx != -1) {
+	  indices.push(idx);
+	  idx = array.indexOf(element, idx + 1);
+	}
+	console.log(indices);*/
+	var indices = [];
+	for(var i=0; i < searchedData.length ;i++){
+		var id = data.indexOf(searchedData[i]);
+		createlist(id);
+		//indices.push(id);
+	}
+	console.log('indices',indices);
+	//var id = data.indexOf(searchedData[0]);
+	console.log('data',data);
+	console.log('foundData',searchedData);
+	console.log('Index of foundData',id);
+	/*for(var j=0;j < searchedData.length;j++){
 		console.log('s_id',searchedData[j].s_id);
 		createlist(searchedData[j].s_id);
-	}
+	}*/
 }
 
 function done(x, _this, task) {
@@ -91,7 +107,7 @@ function done(x, _this, task) {
   	//localStorage.setItem("todos", JSON.stringify(todoData));
   	localStorage.setItem("todoData", JSON.stringify(todoData));
   	console.log('TodoData after done or undone',todoData);
-  	/*flterAndRender('all');*/
+  	//flterAndRender('all');
 }
 
 function remove(idx){

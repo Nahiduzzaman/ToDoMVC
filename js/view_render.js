@@ -6,13 +6,22 @@
 		console.log(status);
 		document.getElementById("main").innerHTML="";
 
+		var sortedData = [];
+		var dataObj = {};
+		for (var i = 0; i < todoData.length; i++) {
+			dataObj = JSON.parse(JSON.stringify(todoData[i]));
+			sortedData.push(dataObj);
+		}
+    	sortbytitle(sortedData);
+    	data = sortedData;
+
 	    if(status == 'done'){
 	    	pending = []; //for search purpose
 	    	var completedData = []; //for search purpose
-		    for(var i = 0; i < todoData.length; i++) {
-		    	if(todoData[i].done == true){
-		    		console.log(todoData[i])
-		    		completedData.push(todoData[i]);
+		    for(var i = 0; i < data.length; i++) {
+		    	if(data[i].done == true){
+		    		console.log(data[i])
+		    		completedData.push(data[i]);
 		    		createlist(i);
 		    	}
 		    }
@@ -21,9 +30,9 @@
 		else if(status == 'pending'){
 			completed = [];
 			var pendingData = [];
-		    for(var i = 0; i < todoData.length; i++) {
-		    	if(todoData[i].done == false){
-		    		pendingData.push(todoData[i]);
+		    for(var i = 0; i < data.length; i++) {
+		    	if(data[i].done == false){
+		    		pendingData.push(data[i]);
 		    		createlist(i);
 		    	}
 		    }
@@ -32,18 +41,8 @@
 		else{
 			pending = [];
 			completed = [];
-			var sortedData = [];
-			var dataObj = {};
-			for (var i = 0; i < todoData.length; i++) {
-				dataObj = JSON.parse(JSON.stringify(todoData[i]));
-				sortedData.push(dataObj);
-			}
-	    	sortbytitle(sortedData);
-	    	data = sortedData;
-	    	console.log('aftersort',todoData);
+	    	console.log('todoData-unsorted',todoData);
 	    	console.log('aftersortdata',data);
-	    	//data = todoData;
-	    	//sortbytitle(data);
 	    	for(var i = 0; i < data.length; i++) {
 		    	createlist(i);	    	
 		    }
@@ -68,13 +67,13 @@
 		var container = document.createElement("div");
 		container.className = "container";
 
-		container.innerHTML = '<h4><b>'+todoData[i].taskname+'</b>'+
+		container.innerHTML = '<h4><b>'+data[i].taskname+'</b>'+
 							  '<input type="checkbox" onChange="methods.done(task'+i+', this,'+[i]+')" style="float: right;">'+
 							  '<span onclick="methods.remove('+[i]+')" style="float:right;cursor:pointer;margin-right: 10px">Delete</span>'+
 							  '<a id="editBtn'+[i]+'" onclick="methods.editOnClick('+[i]+')" style="float:right;cursor:pointer;margin-right: 10px">Edit</a></h4>'+ 
-	                          '<p>'+todoData[i].description+'</p>';
+	                          '<p>'+data[i].description+'</p>';
 
-	    if(todoData[i].done == true){
+	    if(data[i].done == true){
 			card.style.backgroundColor = '#bfbfbf';
 			container.getElementsByTagName("INPUT")[0].checked = true;
 			container.getElementsByTagName("B")[0].style.textDecoration="line-through";
