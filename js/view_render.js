@@ -8,6 +8,7 @@
 
 		var sortedData = [];
 		var dataObj = {};
+		todoData = JSON.parse(localStorage.getItem("todoData"));
 		for (var i = 0; i < todoData.length; i++) {
 			dataObj = JSON.parse(JSON.stringify(todoData[i]));
 			sortedData.push(dataObj);

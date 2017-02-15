@@ -16,6 +16,7 @@ var methods = {
 window.methods = methods;
 
 function createTask(){
+	console.log(todoData)
 	task = {
 		s_id: todoData.length,
 		created_at: new Date(),
@@ -96,27 +97,28 @@ function done(x, _this, task) {
   	console.log(_this);
   	console.log(task);
   	if (_this.checked) {
-  		todoData[task].done = true;
+  		data[task].done = true;
   		x.getElementsByTagName("B")[0].style.textDecoration="line-through";
     	x.style.backgroundColor = '#bfbfbf';
   	} else  {
-  		todoData[task].done = false;
+  		data[task].done = false;
     	x.style = '';
     	x.getElementsByTagName("B")[0].style.textDecoration="";
   	}
   	//localStorage.setItem("todos", JSON.stringify(todoData));
-  	localStorage.setItem("todoData", JSON.stringify(todoData));
-  	console.log('TodoData after done or undone',todoData);
-  	//flterAndRender('all');
+  	console.log('data',data)
+  	localStorage.setItem("todoData", JSON.stringify(data));
+  	console.log('TodoData after done or undone',JSON.parse(localStorage.getItem("todoData")));
+  	//window.location.reload();
 }
 
 function remove(idx){
 	console.log('idx',idx);
     if(window.confirm("Are you sure?")) {
-		todoData.splice(idx, 1);
+		data.splice(idx, 1);
 		var idtodelete = 'list'+idx;
 		document.getElementById(idtodelete).remove();
-		localStorage.setItem("todoData", JSON.stringify(todoData));
+		localStorage.setItem("todoData", JSON.stringify(data));
 	}
 }
 
@@ -124,11 +126,11 @@ var index;
 function editOnClick(id){
 	console.log('edit_id',id);
 	console.log('todoData in edit',todoData)
-	console.log('taskname',todoData[id].taskname );
-	console.log('taskDesc',todoData[id].description );
+	console.log('taskname',data[id].taskname );
+	console.log('taskDesc',data[id].description );
 	modal.style.display = "block";
-	modal.getElementsByTagName("INPUT")[0].value = todoData[id].taskname;
-	modal.getElementsByTagName("TEXTAREA")[0].value = todoData[id].description;
+	modal.getElementsByTagName("INPUT")[0].value = data[id].taskname;
+	modal.getElementsByTagName("TEXTAREA")[0].value = data[id].description;
     modal.getElementsByTagName("SPAN")[0].style.display = 'none'; //save
     modal.getElementsByTagName("SPAN")[1].style.display = 'unset'; //update
 	index = id;
@@ -137,9 +139,9 @@ function editOnClick(id){
 
 function update(){
 	console.log(index);
-	todoData[index].taskname = modal.getElementsByTagName("INPUT")[0].value;
-	todoData[index].description = modal.getElementsByTagName("TEXTAREA")[0].value;
-	localStorage.setItem("todoData", JSON.stringify(todoData));
+	data[index].taskname = modal.getElementsByTagName("INPUT")[0].value;
+	data[index].description = modal.getElementsByTagName("TEXTAREA")[0].value;
+	localStorage.setItem("todoData", JSON.stringify(data));
 	console.log(JSON.parse(localStorage.getItem("todoData")));
 	modal.style.display = "none";
 	window.location.reload();
